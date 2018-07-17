@@ -1,5 +1,6 @@
 var Post = require('./postModel');
 var _ = require('lodash');
+var logger = require('../../util/logger');
 
 exports.params = function(req, res, next, id) {
   Post.findById(id)
@@ -16,7 +17,6 @@ exports.params = function(req, res, next, id) {
 };
 
 exports.get = function(req, res, next) {
-  // need to populate here
   Post.find({})
     .populate('author categories')
     .exec()
@@ -24,7 +24,7 @@ exports.get = function(req, res, next) {
       res.json(posts);
     }, function(err){
       next(err);
-    })
+    });
 };
 
 exports.getOne = function(req, res, next) {
@@ -50,11 +50,11 @@ exports.put = function(req, res, next) {
 
 exports.post = function(req, res, next) {
   var newpost = req.body;
-
   Post.create(newpost)
     .then(function(post) {
       res.json(post);
     }, function(err) {
+      logger.error(err);
       next(err);
     });
 };

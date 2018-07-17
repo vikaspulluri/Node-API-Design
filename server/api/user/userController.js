@@ -25,7 +25,6 @@ exports.get = function(req, res, next) {
 };
 
 exports.getOne = function(req, res, next) {
-  // fix me
   var user = req.user;
   res.json(user);
 };
@@ -48,7 +47,7 @@ exports.put = function(req, res, next) {
 
 exports.post = function(req, res, next) {
   var newUser = req.body;
-
+  //console.log('request body: ' + JSON.stringify(req.body));
   User.create(newUser)
     .then(function(user) {
       res.json(user);

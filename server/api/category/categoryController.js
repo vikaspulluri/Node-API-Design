@@ -2,18 +2,17 @@ var Category = require('./categoryModel');
 var _ = require('lodash');
 
 exports.params = function(req, res, next, id) {
-  // use the id and attach the category to req
   Category.findById(id)
-    .then(function(category){
-      if(!category){
+    .then(function(category) {
+      if (!category) {
         next(new Error('No category with that id'));
-      }else{
+      } else {
         req.category = category;
         next();
-      }, function(err){
-        next(err);
       }
-    })
+    }, function(err) {
+      next(err);
+    });
 };
 
 exports.get = function(req, res, next) {
@@ -22,7 +21,7 @@ exports.get = function(req, res, next) {
       res.json(categories);
     }, function(err){
       next(err);
-    })
+    });
 };
 
 exports.getOne = function(req, res, next) {
