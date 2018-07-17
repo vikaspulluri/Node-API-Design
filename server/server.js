@@ -1,27 +1,14 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var app = express();
-var _ = require('lodash');
-var morgan = require('morgan');
+var api = require('./api/api');
+var err = require('./middleware/errorMiddleware');
+// setup the app middlware
+require('./middleware/appMiddlware')(app);
 
-var lionRouter = require('./lions');
-var tigerRouter = require('./tigers');
+// setup the api
+app.use('/api/', api);
+// set up global error handling
 
-app.use(morgan('dev'))
-app.use(express.static('client'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-// this is called mounting. when ever a req comes in for
-// '/lion' we want to use this router
-app.use('/lions', lionRouter);
-app.use('/tigers', tigerRouter);
-
-app.use(function(err, req, res, next) {
-  if (err) {
-    res.status(500).send(err);
-  }
-});
-
-
-
+app.use(err());
+// export the app for testing
 module.exports = app;
