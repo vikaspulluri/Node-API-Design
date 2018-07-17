@@ -1,5 +1,3 @@
-// TODO: mount the tigers route with a a new router just for tigers
-// exactly like lions below
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -20,11 +18,10 @@ app.use('/tigers', tigerRouter);
 
 app.use(function(err, req, res, next) {
   if (err) {
-  	console.log(err.stack);
-    res.status(500).send('error occured');
+    res.status(500).send(err);
   }
 });
 
 
-app.listen(3000);
-console.log('on port 3000');
+
+module.exports = app;

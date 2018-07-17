@@ -1,9 +1,4 @@
-// TODO: make a new router for the tigers resource
-// and make some REST routes for it, exactly like for tigers
-// make a middleware that just logs the word 'tiger' to the console
-// when a request comes in to the server
 var tigerRouter = require('express').Router();
-var _ = require('lodash');
 
 var tigers = [];
 var id = 0;
@@ -17,13 +12,13 @@ var updateId = function(req, res, next) {
 };
 
 tigerRouter.param('id', function(req, res, next, id) {
-  var todo = _.find(tigers, {id: id});
+  var tiger = _.find(tigers, {id: id});
 
-  if (todo) {
-    req.todo = todo;
+  if (tiger) {
+    req.tiger = tiger;
     next();
   } else {
-    res.status(500).send(new Error('Tiger not found'));
+    res.send();
   }
 });
 
@@ -32,7 +27,7 @@ tigerRouter.get('/', function(req, res){
 });
 
 tigerRouter.get('/:id', function(req, res){
-  var tiger = req.todo;
+  var tiger = req.tiger;
   res.json(tiger || {});
 });
 
@@ -55,8 +50,8 @@ tigerRouter.put('/:id', function(req, res) {
   if (!tigers[tiger]) {
     res.send();
   } else {
-    var updatedTiger = _.assign(tigers[tiger], update);
-    res.json(updatedTiger);
+    var updatedtiger = _.assign(tigers[tiger], update);
+    res.json(updatedtiger);
   }
 });
 
